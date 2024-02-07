@@ -37,19 +37,24 @@ void loop() {
   int pulse = 0;
   int sensorRead = analogRead(SensorIn);
   int buttonState = digitalRead(ButtonIn);
+  Serial.print("State:");
+  Serial.println(state);
+  Serial.print("Sensor:");
   Serial.println(sensorRead);
+  Serial.println(servoPos);
   if(state==1 && buttonState == 1)
   {
     state=2;
   }
-  if(state==0 && sensorRead > threshold)
+  else if(state==0 && sensorRead > threshold)
   {
     state = 1;
   }
-  if(state == 2 and servoPos <=90)
+  else if(state == 2 and servoPos <=90)
   {
     state =0;
   }
+
   if(state==1)
   {
     servoPos++;
@@ -60,6 +65,17 @@ void loop() {
     servoPos--;
     servoDegree(SERVO1, servoPos);
   }
+  if(servoPos >= 180)
+  {
+    servoPos = 179;
+  }
+  if(servoPos <= 0)
+  {
+    servoPos = 0;
+  }
+delay(150);
+
+
 /*
   for(int pos=0; pos <= 179; pos +=1) {
     servoDegree(SERVO1, pos);
